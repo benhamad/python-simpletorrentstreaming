@@ -11,6 +11,7 @@ import subprocess
 import threading
 import logging
 import time
+import sys
 
 
 logging.basicConfig(
@@ -112,3 +113,13 @@ class TorrentStreamer(object):
             Play a torrent file with mplayer
         """
         self.get_parallel_magnets(magnets, stream=True)
+
+
+def main():
+    """
+        Play a torrent.
+    """
+    TorrentStreamer('').stream_torrent([sys.argv[1]])
+
+if __name__ == "__main__":
+    main()

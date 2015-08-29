@@ -24,8 +24,11 @@ test_requirements = [
 
 setup(
     name='SimpleTorrentStreaming',
-    version='0.1.0',
+    version='0.1.1',
     description="Simple libtorrent-based bittorrent streaming module",
+    entry_points = {
+        'console_scripts': ['stream_torrent=SimpleTorrentStreaming.SimpleTorrentStreaming:main'],
+    },
     long_description=readme + '\n\n' + history,
     author="David Francos",
     author_email='me@davidfrancos.net',
