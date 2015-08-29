@@ -5,17 +5,20 @@
 
 # -*- coding: utf-8 -*-
 import mimetypes
-import magnet
+import urlparse
+import re
 
+BUFF_PERCENT = 5
 
 def get_hash(magnet_):
     """
         return readable hash
     """
-    return magnet.url(magnet_).files[0]['hash']
+    magnet_p = urlparse.parse_qs(urlparse.urlparse(magnet_).query)
+    return re.match('urn:btih:(.*)', magnet_p['xt'][0]).group(1)
 
 
-def get_media_file(files):
+def get_media_files(handle):
     """
         Get one only media file
     """
@@ -38,8 +41,15 @@ def get_media_file(files):
             return True
         return False
 
-    first_pass = [fil for fil in files if is_video(fil)]
-    return filter(lambda x: not has_reserved_word(x), first_pass)[0]
+    def get_media_file(files):
+        """
+            Return files.
+        """
+        first_pass = [fil for fil in files if is_video(fil)]
+        return filter(lambda x: not has_reserved_word(x), first_pass)[0]
+
+    tinfo = handle.get_torrent_info()
+    return get_media_file([fle.path for fle in tinfo.files()])
 
 
 def make_status_readable(status):
@@ -73,3 +83,24 @@ def make_download_status(queue, pieces):
     downloading = [piece['piece_index'] for piece in queue]
     pieces = dict(enumerate(pieces))
     return [get_status(pieces, piece, downloading) for piece in pieces]
+
+
+def set_streaming_priorities(handle):
+    """
+        Set priorities for chunk
+    """
+    handle.set_sequential_download(True)
+    pieces = dict(enumerate(handle.status().pieces))
+    next_pieces = [key for key, val in pieces.iteritems() if val][:3]
+    for piece in next_pieces:
+        handle.piece_priority(piece, 7)
+
+
+def is_playable(file_, handle):
+    """
+        Check if we've got 1/5th of the file
+    """
+    if not file_:
+        return False
+    status_ = make_status_readable(handle.status())
+    return status_.progress > BUFF_PERCENT  # Wait until we have 1/5
