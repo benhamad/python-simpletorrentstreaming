@@ -28,3 +28,15 @@ Features
 * Very few lines of code
 * Multiple download of torrents
 
+Usage
+-----
+
+::
+
+    from SimpleTorrentStreaming import SimpleTorrentStreaming 
+
+Or, if you only want to play a torrent with mplayer:
+
+::
+
+    stream_torrent "<magnet_link>"
