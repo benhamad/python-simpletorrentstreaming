@@ -116,10 +116,18 @@ class TorrentStreamer(object):
 
 
 def main():
+    import argparse
+    parser = argparse.ArgumentParser("stream_torrent")
+    parser.add_argument('magnet', metavar='magnet', type=str, nargs='+',
+                               help='Magnet link to stream')
+    args = parser.parse_args()
+    
     """
         Play a torrent.
     """
-    TorrentStreamer('').stream_torrent([sys.argv[1]])
+    streamer = TorrentStreamer('')
+    for magnet in args.magnet:
+        streamer.stream_torrent(magnet)
 
 if __name__ == "__main__":
     main()
