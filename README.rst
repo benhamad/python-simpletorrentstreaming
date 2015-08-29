@@ -1,20 +1,30 @@
-===============================
+==================================
 Simple libtorrent streaming module
-===============================
-
-.. image:: https://img.shields.io/travis/XayOn/SimpleTorrentStreaming.svg
-        :target: https://travis-ci.org/XayOn/SimpleTorrentStreaming
-
-.. image:: https://img.shields.io/pypi/v/SimpleTorrentStreaming.svg
-        :target: https://pypi.python.org/pypi/SimpleTorrentStreaming
-
+==================================
 
 Simple libtorrent-based bittorrent streaming module
 
-* Free software: BSD license
+This is a small-as-it-gets python library able to handle
+multiple bittorrent downloads and bittorrent streaming
+(even multiple bittorrent streaming, theoretically, but who whould want that?)
+
+Dependences
+-----------
+Requires libtorrent for python2 to be installed.
+
+In debian and derivatives, this is accomplished by:
+
+::
+
+    apt-get install python-libtorrent
+
+* Free software: GPL 2+
 * Documentation: https://SimpleTorrentStreaming.readthedocs.org.
 
 Features
 --------
 
-* TODO
+* Play torrents in stream with mplayer
+* Very few lines of code
+* Multiple download of torrents
+
